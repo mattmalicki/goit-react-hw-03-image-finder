@@ -63,7 +63,7 @@ export class App extends Component {
   };
 
   handleCloseModal = event => {
-    if (event.target.id !== 'modal' || event.key === 'Escape') {
+    if (event.target.id === 'modal' || event.key === 'Escape') {
       this.setState({
         modalOpen: false,
         modal: { src: '', tags: [] },
