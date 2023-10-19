@@ -11,6 +11,7 @@ export class Modal extends Component {
         onClick={close}
         onKeyDown={close}
       >
+        {window.addEventListener('keydown', close)}
         <div className={styles.Modal}>
           <img src={src} alt={alt} />
         </div>
