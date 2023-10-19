@@ -41,6 +41,7 @@ export class App extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     await this.getImages();
+    console.log(this.state.modalOpen);
   };
 
   async componentDidUpdate() {
@@ -57,6 +58,7 @@ export class App extends Component {
       modalOpen: true,
       modal: { src: image.src, tags: image.alt },
     });
+    console.log(this.state.modalOpen);
   };
 
   closeModal = event => {
@@ -82,7 +84,6 @@ export class App extends Component {
         },
       });
       const images = await respond.data;
-      console.log(images.hits);
       this.setState({ images: images.hits });
     } catch (error) {
       this.setState({ error });
@@ -96,7 +97,8 @@ export class App extends Component {
 
     if (
       nextState.images[0]?.id === oldState.images[0]?.id &&
-      nextState.currentPage === oldState.currentPage
+      nextState.currentPage === oldState.currentPage &&
+      nextState.openModal === oldState.openModal
     ) {
       return false;
     }

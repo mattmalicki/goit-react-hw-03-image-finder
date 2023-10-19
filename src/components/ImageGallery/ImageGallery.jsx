@@ -8,7 +8,6 @@ export class ImageGallery extends Component {
     const { images, openModal } = this.props;
     return (
       <ul className={styles.ImageGallery} onClick={openModal}>
-        {console.log(images[0].webformatURL)}
         {images.map(image => {
           return (
             <ImageGalleryItem
