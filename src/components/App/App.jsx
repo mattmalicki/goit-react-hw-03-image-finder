@@ -21,8 +21,8 @@ export class App extends Component {
     currentQuery: '',
     modalOpen: false,
     modal: {
-      src,
-      tags,
+      src: '',
+      tags: [],
     },
   };
 
@@ -55,7 +55,7 @@ export class App extends Component {
 
     this.setState({
       modalOpen: true,
-      modal: { src: image.src, tags: img.alt },
+      modal: { src: image.src, tags: image.alt },
     });
   };
 
@@ -95,7 +95,7 @@ export class App extends Component {
   }
 
   render() {
-    const { error, isLoading, images, modalOpen } = this.state;
+    const { error, isLoading, images, modalOpen, modal } = this.state;
     return (
       <div className={styles.App}>
         <Searchbar submit={this.handleSubmit} />
@@ -103,7 +103,9 @@ export class App extends Component {
         {isLoading && <Loader />}
         {images.length > 0 && <ImageGallery images={this.state.images} />}
         {images.length > 0 && <Button handleClick={this.handleClick} />}
-        {modalOpen && <Modal />}
+        {modalOpen && (
+          <Modal src={modal.src} alt={modal.tags} close={modalColse} />
+        )}
       </div>
     );
   }
