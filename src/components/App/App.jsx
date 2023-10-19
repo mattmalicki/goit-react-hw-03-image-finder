@@ -40,7 +40,11 @@ export class App extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
-    await this.getImages();
+    const form = event.currentTarget;
+    this.setState({ currentQuery: form.querry.value }, () => {
+      this.getImages();
+    });
+
     console.log(this.state.modalOpen);
   };
 
