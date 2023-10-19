@@ -102,7 +102,7 @@ export class App extends Component {
         {error && <p>Something went wrong: {error.message}</p>}
         {isLoading && <Loader />}
         {images.length > 0 && <ImageGallery images={this.state.images} />}
-        <Button handleClick={this.handleClick} />
+        {images.length > 0 && <Button handleClick={this.handleClick} />}
         {modalOpen && <Modal />}
       </div>
     );
