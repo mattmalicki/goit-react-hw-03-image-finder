@@ -59,6 +59,16 @@ export class App extends Component {
     });
   };
 
+  closeModal = event => {
+    if (event.target.id !== 'modal' || event.key === 'Escape') {
+      this.setState({
+        modalOpen: false,
+        modal: { src: '', tags: [] },
+      });
+    }
+    return;
+  };
+
   getImages = async () => {
     try {
       const respond = await axios.get(this.API_URL, {
@@ -95,16 +105,26 @@ export class App extends Component {
   }
 
   render() {
-    const { error, isLoading, images, modalOpen, modal } = this.state;
+    const {
+      error,
+      isLoading,
+      images,
+      modalOpen,
+      closeModal,
+      openModal,
+      modal,
+    } = this.state;
     return (
       <div className={styles.App}>
         <Searchbar submit={this.handleSubmit} />
         {error && <p>Something went wrong: {error.message}</p>}
         {isLoading && <Loader />}
-        {images.length > 0 && <ImageGallery images={this.state.images} />}
+        {images.length > 0 && (
+          <ImageGallery images={this.state.images} openModal={openModal} />
+        )}
         {images.length > 0 && <Button handleClick={this.handleClick} />}
         {modalOpen && (
-          <Modal src={modal.src} alt={modal.tags} close={modalColse} />
+          <Modal src={modal.src} alt={modal.tags} close={closeModal} />
         )}
       </div>
     );

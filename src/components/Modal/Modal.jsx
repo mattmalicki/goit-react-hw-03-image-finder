@@ -5,7 +5,7 @@ export class Modal extends Component {
   render() {
     const { src, alt, close } = this.props;
     return (
-      <div class={styles.Overlay} onClick={close} onKeyDown={close}>
+      <div id="modal" class={styles.Overlay} onClick={close} onKeyDown={close}>
         <div class={styles.Modal}>
           <img src={src} alt={alt} />
         </div>

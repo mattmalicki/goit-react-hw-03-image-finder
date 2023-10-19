@@ -5,9 +5,9 @@ import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
 
 export class ImageGallery extends Component {
   render() {
-    const { images } = this.props;
+    const { images, openModal } = this.props;
     return (
-      <ul className={styles.ImageGallery}>
+      <ul className={styles.ImageGallery} onClick={openModal}>
         {console.log(images[0].webformatURL)}
         {images.map(image => {
           return (
