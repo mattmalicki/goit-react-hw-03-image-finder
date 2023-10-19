@@ -5,6 +5,7 @@ import { Loader } from '../Loader/Loader';
 import { Button } from '../Button/Button';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Searchbar } from '../Searchbar/Searchbar';
+import { Modal } from '../Modal/Modal';
 
 export class App extends Component {
   API_KEY = '38855458-8cac518777b782fa6e9540f58';
@@ -18,6 +19,11 @@ export class App extends Component {
     error: '',
     currentPage: 1,
     currentQuery: '',
+    modalOpen: false,
+    modal: {
+      src,
+      tags,
+    },
   };
 
   handleCurrentPageUpdate = () => {
@@ -32,9 +38,6 @@ export class App extends Component {
     this.handleCurrentPageUpdate();
   };
 
-  // async componentDidMount() {
-  //   await this.getImages();
-  // }
   handleSubmit = async event => {
     event.preventDefault();
     await this.getImages();
@@ -43,6 +46,18 @@ export class App extends Component {
   async componentDidUpdate() {
     await this.getImages();
   }
+
+  openModal = event => {
+    if (event.target.nodeName !== 'IMG') {
+      return;
+    }
+    const image = event.target;
+
+    this.setState({
+      modalOpen: true,
+      modal: { src: image.src, tags: img.alt },
+    });
+  };
 
   getImages = async () => {
     try {
@@ -80,7 +95,7 @@ export class App extends Component {
   }
 
   render() {
-    const { error, isLoading, images } = this.state;
+    const { error, isLoading, images, modalOpen } = this.state;
     return (
       <div className={styles.App}>
         <Searchbar submit={this.handleSubmit} />
@@ -88,6 +103,7 @@ export class App extends Component {
         {isLoading && <Loader />}
         {images.length > 0 && <ImageGallery images={this.state.images} />}
         <Button handleClick={this.handleClick} />
+        {modalOpen && <Modal />}
       </div>
     );
   }
