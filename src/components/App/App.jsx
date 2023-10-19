@@ -48,7 +48,7 @@ export class App extends Component {
     await this.getImages();
   }
 
-  openModal = event => {
+  handleOpenModal = event => {
     if (event.target.nodeName !== 'IMG') {
       return;
     }
@@ -61,7 +61,7 @@ export class App extends Component {
     console.log(this.state.modalOpen);
   };
 
-  closeModal = event => {
+  handleCloseModal = event => {
     if (event.target.id !== 'modal' || event.key === 'Escape') {
       this.setState({
         modalOpen: false,
@@ -112,8 +112,8 @@ export class App extends Component {
       isLoading,
       images,
       modalOpen,
-      closeModal,
-      openModal,
+      handleCloseModal,
+      handleOpenModal,
       modal,
     } = this.state;
     return (
@@ -122,11 +122,14 @@ export class App extends Component {
         {error && <p>Something went wrong: {error.message}</p>}
         {isLoading && <Loader />}
         {images.length > 0 && (
-          <ImageGallery images={this.state.images} openModal={openModal} />
+          <ImageGallery
+            images={this.state.images}
+            openModal={handleOpenModal}
+          />
         )}
         {images.length > 0 && <Button handleClick={this.handleClick} />}
         {modalOpen && (
-          <Modal src={modal.src} alt={modal.tags} close={closeModal} />
+          <Modal src={modal.src} alt={modal.tags} close={handleCloseModal} />
         )}
       </div>
     );
