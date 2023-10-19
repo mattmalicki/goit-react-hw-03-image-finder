@@ -12,6 +12,7 @@ export class Searchbar extends Component {
           </button>
           <input
             className={styles['SearchForm-input']}
+            name="querry"
             type="text"
             autoComplete="off"
             autoFocus
