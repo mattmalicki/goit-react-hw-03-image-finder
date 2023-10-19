@@ -44,8 +44,6 @@ export class App extends Component {
     this.setState({ currentQuery: form.querry.value }, () => {
       this.getImages();
     });
-
-    console.log(this.state.modalOpen);
   };
 
   async componentDidUpdate() {
@@ -62,7 +60,6 @@ export class App extends Component {
       modalOpen: true,
       modal: { src: image.src, tags: image.alt },
     });
-    console.log(this.state.modalOpen);
   };
 
   handleCloseModal = event => {
@@ -102,7 +99,7 @@ export class App extends Component {
     if (
       nextState.images[0]?.id === oldState.images[0]?.id &&
       nextState.currentPage === oldState.currentPage &&
-      nextState.openModal === oldState.openModal
+      nextState.modalOpen === oldState.modalOpen
     ) {
       return false;
     }
@@ -111,15 +108,7 @@ export class App extends Component {
   }
 
   render() {
-    const {
-      error,
-      isLoading,
-      images,
-      modalOpen,
-      handleCloseModal,
-      handleOpenModal,
-      modal,
-    } = this.state;
+    const { error, isLoading, images, modalOpen, modal } = this.state;
     return (
       <div className={styles.App}>
         <Searchbar submit={this.handleSubmit} />
@@ -128,12 +117,16 @@ export class App extends Component {
         {images.length > 0 && (
           <ImageGallery
             images={this.state.images}
-            openModal={handleOpenModal}
+            openModal={this.handleOpenModal}
           />
         )}
         {images.length > 0 && <Button handleClick={this.handleClick} />}
         {modalOpen && (
-          <Modal src={modal.src} alt={modal.tags} close={handleCloseModal} />
+          <Modal
+            src={modal.src}
+            alt={modal.tags}
+            close={this.handleCloseModal}
+          />
         )}
       </div>
     );
