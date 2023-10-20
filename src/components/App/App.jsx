@@ -20,6 +20,7 @@ export class App extends Component {
     currentPage: 0,
     currentQuery: '',
     modalOpen: false,
+    totalHits: 0,
     modal: {
       src: '',
       tags: [],
@@ -96,6 +97,7 @@ export class App extends Component {
         this.setState(state => {
           return {
             images: state.images.concat(images.hits),
+            totalHits: images.totalHits,
           };
         });
       }, 1000);
@@ -122,7 +124,8 @@ export class App extends Component {
   }
 
   render() {
-    const { error, isLoading, images, modalOpen, modal } = this.state;
+    const { error, isLoading, images, totalHits, modalOpen, modal } =
+      this.state;
     return (
       <div className={styles.App}>
         <Searchbar submit={this.handleSubmit} />
@@ -134,7 +137,9 @@ export class App extends Component {
           />
         )}
         {isLoading && <Loader />}
-        {images.length > 0 && <Button handleClick={this.handleClick} />}
+        {images.length !== 0 && images.length !== totalHits && (
+          <Button handleClick={this.handleClick} />
+        )}
         {modalOpen && (
           <Modal
             src={modal.src}
