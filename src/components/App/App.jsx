@@ -6,6 +6,7 @@ import { Button } from '../Button/Button';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
 import { Searchbar } from '../Searchbar/Searchbar';
 import { Modal } from '../Modal/Modal';
+import { Notify } from 'notiflix';
 
 export class App extends Component {
   API_KEY = '38855458-8cac518777b782fa6e9540f58';
@@ -93,6 +94,11 @@ export class App extends Component {
         },
       });
       const images = await respond.data;
+      if (images.hits.length === 0) {
+        new Notify.failure('Sorry, no images found', { clickToClose: true });
+        this.setState({ currentPage: 0 });
+        return;
+      }
       setTimeout(() => {
         this.setState(state => {
           return {
