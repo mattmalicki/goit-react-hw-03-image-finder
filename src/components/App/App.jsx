@@ -17,7 +17,7 @@ export class App extends Component {
     images: [],
     isLoading: false,
     error: '',
-    currentPage: 1,
+    currentPage: 0,
     currentQuery: '',
     modalOpen: false,
     modal: {
@@ -26,29 +26,36 @@ export class App extends Component {
     },
   };
 
-  handleCurrentPageUpdate = () => {
-    this.setState(state => {
-      return {
-        currentPage: state.currentPage + 1,
-      };
-    });
+  handleCurrentPageUpdate = async () => {
+    this.setState(
+      state => {
+        return {
+          isLoading: true,
+          currentPage: state.currentPage + 1,
+        };
+      },
+      () => this.getImages()
+    );
   };
 
-  handleClick = () => {
+  handleClick = async () => {
     this.handleCurrentPageUpdate();
   };
 
   handleSubmit = async event => {
     event.preventDefault();
-    const form = event.currentTarget;
-    this.setState({ currentQuery: form.querry.value }, () => {
-      this.getImages();
-    });
-  };
 
-  async componentDidUpdate() {
-    await this.getImages();
-  }
+    const form = event.currentTarget;
+    this.setState(
+      {
+        isLoading: true,
+        currentQuery: form.querry.value,
+        currentPage: 1,
+        images: [],
+      },
+      () => this.getImages()
+    );
+  };
 
   handleOpenModal = event => {
     if (event.target.nodeName !== 'IMG') {
@@ -85,7 +92,13 @@ export class App extends Component {
         },
       });
       const images = await respond.data;
-      this.setState({ images: images.hits });
+      setTimeout(() => {
+        this.setState(state => {
+          return {
+            images: state.images.concat(images.hits),
+          };
+        });
+      }, 1000);
     } catch (error) {
       this.setState({ error });
     } finally {
@@ -97,8 +110,9 @@ export class App extends Component {
     const oldState = this.state;
 
     if (
-      nextState.images[0]?.id === oldState.images[0]?.id &&
+      nextState.images?.length === oldState.images?.length &&
       nextState.currentPage === oldState.currentPage &&
+      nextState.currentQuery === oldState.currentQuery &&
       nextState.modalOpen === oldState.modalOpen
     ) {
       return false;
@@ -113,13 +127,13 @@ export class App extends Component {
       <div className={styles.App}>
         <Searchbar submit={this.handleSubmit} />
         {error && <p>Something went wrong: {error.message}</p>}
-        {isLoading && <Loader />}
         {images.length > 0 && (
           <ImageGallery
             images={this.state.images}
             openModal={this.handleOpenModal}
           />
         )}
+        {isLoading && <Loader />}
         {images.length > 0 && <Button handleClick={this.handleClick} />}
         {modalOpen && (
           <Modal
