@@ -21,7 +21,7 @@ export class Modal extends Component {
   }
 }
 
-Modal.PropTypes = {
+Modal.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string,
   close: PropTypes.func,
