@@ -1,12 +1,12 @@
-import { Component } from 'react';
-import axios from 'axios';
-import styles from './App.module.css';
-import { Loader } from '../Loader/Loader';
 import { Button } from '../Button/Button';
+import axios from 'axios';
+import { Component } from 'react';
 import { ImageGallery } from '../ImageGallery/ImageGallery';
-import { Searchbar } from '../Searchbar/Searchbar';
+import { Loader } from '../Loader/Loader';
 import { Modal } from '../Modal/Modal';
 import { Notify } from 'notiflix';
+import { Searchbar } from '../Searchbar/Searchbar';
+import styles from './App.module.css';
 
 export class App extends Component {
   API_KEY = '38855458-8cac518777b782fa6e9540f58';
