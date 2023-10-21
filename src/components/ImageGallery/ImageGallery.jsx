@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './ImageGallery.module.css';
 
 import { ImageGalleryItem } from '../ImageGalleryItem/ImageGalleryItem';
@@ -22,3 +23,15 @@ export class ImageGallery extends Component {
     );
   }
 }
+
+ImageGallery.propTypes = {
+  openModal: PropTypes.func,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      webformatURL: PropTypes.string,
+      largeImageURL: PropTypes.string,
+      tags: PropTypes.arrayOf(PropTypes.string),
+    })
+  ),
+};
