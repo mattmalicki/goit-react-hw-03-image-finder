@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './Button.module.css';
 
 export class Button extends Component {
@@ -11,3 +12,7 @@ export class Button extends Component {
     );
   }
 }
+
+Button.propTypes = {
+  handleClick: PropTypes.func,
+};
