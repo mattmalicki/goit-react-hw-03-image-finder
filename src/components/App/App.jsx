@@ -78,7 +78,6 @@ export class App extends Component {
         modal: { src: '', tags: [] },
       });
     }
-    return;
   };
 
   getImages = async () => {
@@ -117,16 +116,12 @@ export class App extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     const oldState = this.state;
 
-    if (
+    return !(
       nextState.images?.length === oldState.images?.length &&
       nextState.currentPage === oldState.currentPage &&
       nextState.currentQuery === oldState.currentQuery &&
       nextState.modalOpen === oldState.modalOpen
-    ) {
-      return false;
-    }
-
-    return true;
+    );
   }
 
   render() {
